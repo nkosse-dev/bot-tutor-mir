@@ -16,17 +16,17 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 @bot.message_handler(func=lambda message: True)
+@bot.message_handler(func=lambda message: True)
 def responder_mensaje(message):
     try:
         bot.send_chat_action(message.chat.id, 'typing') 
         instruccion = "Actúa como un profesor experto en el examen MIR de España. Responde de forma estructurada a: "
         respuesta = model.generate_content(instruccion + message.text)
         bot.reply_to(message, respuesta.text)
-  except Exception as e:
+    except Exception as e:
         # ¡AHORA VEREMOS EL ERROR REAL!
         error_real = str(e)
         bot.reply_to(message, f"Fallo en Gemini. El error técnico es: {error_real}")
-
 # 4. EL TRUCO PARA RENDER (Servidor Web Falso)
 app = Flask(__name__)
 
