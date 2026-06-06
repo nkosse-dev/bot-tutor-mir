@@ -22,8 +22,10 @@ def responder_mensaje(message):
         instruccion = "Actúa como un profesor experto en el examen MIR de España. Responde de forma estructurada a: "
         respuesta = model.generate_content(instruccion + message.text)
         bot.reply_to(message, respuesta.text)
-    except Exception as e:
-        bot.reply_to(message, "Ups, hubo un error de conexión con Gemini.")
+  except Exception as e:
+        # ¡AHORA VEREMOS EL ERROR REAL!
+        error_real = str(e)
+        bot.reply_to(message, f"Fallo en Gemini. El error técnico es: {error_real}")
 
 # 4. EL TRUCO PARA RENDER (Servidor Web Falso)
 app = Flask(__name__)
