@@ -22,9 +22,16 @@ def responder_mensaje(message):
         bot.send_chat_action(message.chat.id, 'typing') 
         instruccion = "Actúa como un profesor experto en el examen MIR de España. Responde de forma estructurada a: "
         respuesta = model.generate_content(instruccion + message.text)
-        bot.reply_to(message, respuesta.text)
+        
+        # SOLUCIÓN PARA MENSAJES LARGOS
+        texto_completo = respuesta.text
+        limite = 4000 # Cortamos un poco antes del límite de 4096 de Telegram por seguridad
+        
+        # Enviamos el texto en trozos si es muy largo
+        for i in range(0, len(texto_completo), limite):
+            bot.send_message(message.chat.id, texto_completo[i:i+limite])
+            
     except Exception as e:
-        # ¡AHORA VEREMOS EL ERROR REAL!
         error_real = str(e)
         bot.reply_to(message, f"Fallo en Gemini. El error técnico es: {error_real}")
 # 4. EL TRUCO PARA RENDER (Servidor Web Falso)
