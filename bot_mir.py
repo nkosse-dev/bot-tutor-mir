@@ -100,7 +100,12 @@ def home():
     return "Bot MIR activo con Memoria."
 
 def iniciar_bot():
-    bot.polling(none_stop=True)
+    # Bucle infinito para reconectar automáticamente si Telegram corta la llamada
+    while True:
+        try:
+            bot.infinity_polling(timeout=60, long_polling_timeout=60)
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     hilo_bot = threading.Thread(target=iniciar_bot)
